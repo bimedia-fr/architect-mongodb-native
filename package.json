@@ -1,0 +1,27 @@
+{
+  "name": "architect-mongodb-native",
+  "version": "0.0.1",
+  "description": "Expose a mongodb client as architect plugin.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "vows --spec test/*-test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bimedia-fr/architect-mongodb-native.git"
+  },
+  "keywords": [
+    "architect",
+    "mongodb",
+    "mongodb-native"
+  ],
+  "author": "jerome creignou",
+  "license": "Apache License V2",
+  "bugs": {
+    "url": "https://github.com/bimedia-fr/architect-mongodb-native/issues"
+  },
+  "homepage": "https://github.com/bimedia-fr/architect-mongodb-native",
+  "dependencies": {
+    "mongodb": "^1.4.7"
+  }
+}
