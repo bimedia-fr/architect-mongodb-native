@@ -23,5 +23,8 @@
   "homepage": "https://github.com/bimedia-fr/architect-mongodb-native",
   "dependencies": {
     "mongodb": "^1.4.7"
+  },
+  "plugin": {
+    "provides": ["mongo"]
   }
 }
