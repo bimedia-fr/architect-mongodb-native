@@ -13,7 +13,7 @@ npm install --save architect-mongodb-native
 ```js
 {
   "packagePath": "architect-mongodb-native",
-  url: 'mongodb://127.0.0.1:27017/test'
+  "url": "mongodb://127.0.0.1:27017/test"
 }
 ```
 
@@ -48,7 +48,7 @@ Configure mongodb with `config.js` :
 
 ```js
 module.exports = [{
-    packagePath: "architect-stompjs",
+    packagePath: "architect-mongodb-native",
     url : 'mongodb://127.0.0.1:27017/test'
 }, './routes'];
 ```
