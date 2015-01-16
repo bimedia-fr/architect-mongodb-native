@@ -80,3 +80,8 @@ module.exports = function setup(options, imports, register) {
     register();
 };
 ```
+
+### Options
+* url : mongoclient connect url
+* config : additionnal connection parameter
+* logger: ['error', 'info', 'debug'] enable mongodb driver logs with the selected level.
