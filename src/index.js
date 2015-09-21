@@ -21,11 +21,11 @@ module.exports = function setup(options, imports, register) {
         register(err, {
             mongo: {
                 db: db,
-                dataTypes: mongodb,
-                onDestroy: function destroy() {
-                    if (db) {
-                        db.close();
-                    }
+                dataTypes: mongodb
+            },
+            onDestroy: function destroy() {
+                if (db) {
+                    db.close();
                 }
             }
         });
