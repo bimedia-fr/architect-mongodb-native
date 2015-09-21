@@ -24,7 +24,7 @@ module.exports = function setup(options, imports, register) {
                 dataTypes: mongodb
             },
             onDestroy: function destroy() {
-                if (db) {
+                if (db) {
                     db.close();
                 }
             }
