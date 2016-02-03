@@ -25,7 +25,7 @@ module.exports = function setup(options, imports, register) {
             },
             onDestroy: function destroy() {
                 if (db) {
-                    db.close();
+                    db.close(true);
                 }
             }
         });
