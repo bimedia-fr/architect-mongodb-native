@@ -39,6 +39,13 @@ module.exports = function setup(options, imports, register) {
             db: {
                 dataTypes: mongodb
             }
+        },
+        onDestroy: function destroy() {
+            Object.keys(reg.mongo.db).forEach((name) => {
+                if (reg.mongo.db[name] && reg.mongo.db[name].close) {
+                    reg.mongo.db[name].close(true);
+                }
+            });
         }
     };
 
