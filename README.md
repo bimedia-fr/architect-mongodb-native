@@ -85,3 +85,21 @@ module.exports = function setup(options, imports, register) {
 * url : mongoclient connect url
 * config : additionnal connection parameter
 * config.logger: ['error', 'info', 'debug'] enable mongodb driver logs with the selected level.
+
+### multiple connections
+
+Multiple mongo connection are supported. 
+For instance :
+
+```js
+module.exports = [{
+    packagePath: "architect-mongodb-native",
+    first:{
+      url : 'mongodb://127.0.0.1:27017/test'
+    },
+    second:{
+      url : 'mongodb://127.0.0.1:27017/other'
+    }
+}, './routes'];
+```
+
