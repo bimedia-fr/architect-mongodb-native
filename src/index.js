@@ -37,8 +37,8 @@ module.exports = function setup(options, imports, register) {
     var reg = {
         mongo: {
             db: {
-                dataTypes: mongodb
-            }
+            },
+            dataTypes: mongodb
         },
         onDestroy: function destroy() {
             Object.keys(reg.mongo.db).forEach((name) => {
