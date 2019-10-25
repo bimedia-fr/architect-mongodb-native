@@ -9,6 +9,8 @@ module.exports = function setup(options, imports, register) {
     var dbconfig = options.config || {};
     var log;
 
+    dbconfig.useUnifiedTopology = true;
+
     if (dbconfig.logger) {
         log = imports.log.getLogger('mongo');
         Logger.setLevel(dbconfig.logger);
@@ -19,15 +21,15 @@ module.exports = function setup(options, imports, register) {
     }
 
     if (dburl) {
-        return MongoClient.connect(dburl, dbconfig, function (err, db) {
+        return MongoClient.connect(dburl, dbconfig, function (err, client) {
             register(err, {
                 mongo: {
-                    db: db,
+                    db: client.db(),
                     dataTypes: mongodb
                 },
                 onDestroy: function destroy() {
-                    if (db) {
-                        db.close(true);
+                    if (client) {
+                        client.close(true);
                     }
                 }
             });
@@ -36,14 +38,14 @@ module.exports = function setup(options, imports, register) {
 
     var reg = {
         mongo: {
-            db: {
-            },
+            db: {},
+            clients: {},
             dataTypes: mongodb
         },
         onDestroy: function destroy() {
-            Object.keys(reg.mongo.db).forEach((name) => {
-                if (reg.mongo.db[name] && reg.mongo.db[name].close) {
-                    reg.mongo.db[name].close(true);
+            Object.keys(reg.mongo.clients).forEach((name) => {
+                if (reg.mongo.clients[name]) {
+                    reg.mongo.clients[name].close(true);
                 }
             });
         }
@@ -57,9 +59,10 @@ module.exports = function setup(options, imports, register) {
             var db = options[dbName];
             var config = db.config || dbconfig;
             return MongoClient.connect(db.url, config)
-                .then(function (res) {
+                .then(function (client) {
                     log && log.debug(dbName, 'connected @', db.url);
-                    reg.mongo.db[dbName] = res
+                    reg.mongo.clients[dbName] = client;
+                    reg.mongo.db[dbName] = client.db();
                 });
         });
 

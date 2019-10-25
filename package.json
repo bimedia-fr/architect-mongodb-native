@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/bimedia-fr/architect-mongodb-native",
   "dependencies": {
-    "mongodb": "~2.2"
+    "mongodb": "3.x"
   }
 }
