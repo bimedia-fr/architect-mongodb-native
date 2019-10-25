@@ -1,6 +1,6 @@
 {
   "name": "architect-mongodb-native",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "description": "Expose a mongodb client as architect plugin.",
   "main": "src/index.js",
   "repository": {
