@@ -22,7 +22,10 @@ module.exports = function setup(options, imports, register) {
 
     if (dburl) {
         return MongoClient.connect(dburl, dbconfig, function (err, client) {
-            register(err, {
+            if (err) {
+                return register(err);
+            }
+            register(null, {
                 mongo: {
                     db: client.db(),
                     dataTypes: mongodb
