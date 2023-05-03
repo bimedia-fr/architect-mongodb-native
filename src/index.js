@@ -1,30 +1,22 @@
-/*jslint node : true, nomen: true, plusplus: true, vars: true, eqeq: true,*/
-"use strict";
 
 module.exports = function setup(options, imports, register) {
-    var mongodb = require('mongodb');
-    var MongoClient = mongodb.MongoClient;
-    var Logger = mongodb.Logger;
-    var dburl = options.url;
-    var dbconfig = options.config || {};
-    var log;
 
-    dbconfig.useUnifiedTopology = true;
-
+    const mongodb = require('mongodb');
+    const MongoClient = mongodb.MongoClient;
+    const Logger = mongodb.Logger;
+    const dbconfig = Object.assign({}, {useUnifiedTopology: true}, options.config);
+    const log = imports.log.getLogger('mongo');
+    
     if (dbconfig.logger) {
-        log = imports.log.getLogger('mongo');
         Logger.setLevel(dbconfig.logger);
-
+        
         Logger.setCurrentLogger(function (msg, context) {
             log[context.type](context.message);
         });
     }
-
-    if (dburl) {
-        return MongoClient.connect(dburl, dbconfig, function (err, client) {
-            if (err) {
-                return register(err);
-            }
+    
+    if (options.url) {
+        return MongoClient.connect(options.url, dbconfig).then((client) => {
             register(null, {
                 mongo: {
                     db: client.db(),
@@ -36,6 +28,9 @@ module.exports = function setup(options, imports, register) {
                     }
                 }
             });
+        }).catch(err => {
+            log.error(err.message, err.stack);
+            return register(err);
         });
     }
 
@@ -60,10 +55,10 @@ module.exports = function setup(options, imports, register) {
         })
         .map((dbName) => {
             var db = options[dbName];
-            var config = db.config || dbconfig;
+            var config = Object.assign({}, dbconfig, db.config);
             return MongoClient.connect(db.url, config)
                 .then(function (client) {
-                    log && log.debug(dbName, 'connected @', db.url);
+                    log.debug(dbName, 'connected @', db.url);
                     reg.mongo.clients[dbName] = client;
                     reg.mongo.db[dbName] = client.db();
                 });
@@ -74,7 +69,7 @@ module.exports = function setup(options, imports, register) {
             register(null, reg);
         })
         .catch(function (err) {
-            log && log.error(err.stack);
+            log.error(err.message, err.stack);
             register(err);
         });
 };
