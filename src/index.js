@@ -16,7 +16,7 @@ module.exports = function setup(options, imports, register) {
     }
     
     if (options.url) {
-        const client = new MongoClient(dburl, dbconfig);
+        const client = new MongoClient(options.url, dbconfig);
         return client.connect().then(() => {
             register(null, {
                 mongo: {
