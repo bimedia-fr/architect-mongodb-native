@@ -16,7 +16,8 @@ module.exports = function setup(options, imports, register) {
     }
     
     if (options.url) {
-        return MongoClient.connect(options.url, dbconfig).then((client) => {
+        const client = new MongoClient(dburl, dbconfig);
+        return client.connect().then(() => {
             register(null, {
                 mongo: {
                     db: client.db(),
@@ -34,7 +35,7 @@ module.exports = function setup(options, imports, register) {
         });
     }
 
-    var reg = {
+    const reg = {
         mongo: {
             db: {},
             clients: {},
@@ -49,19 +50,19 @@ module.exports = function setup(options, imports, register) {
         }
     };
 
-    var connections = Object.keys(options)
+    const connections = Object.keys(options)
         .filter(function (o) {
             return options[o] && options[o].url;
         })
         .map((dbName) => {
-            var db = options[dbName];
-            var config = Object.assign({}, dbconfig, db.config);
-            return MongoClient.connect(db.url, config)
-                .then(function (client) {
-                    log.debug(dbName, 'connected @', db.url);
-                    reg.mongo.clients[dbName] = client;
-                    reg.mongo.db[dbName] = client.db();
-                });
+            const db = options[dbName];
+            const config = Object.assign({}, dbconfig, db.config);
+            const client = new MongoClient(db.url, config);
+            return client.connect().then(client => {
+                log.debug(dbName, 'connected @', db.url);
+                reg.mongo.clients[dbName] = client;
+                reg.mongo.db[dbName] = client.db();
+            });
         });
 
     Promise.all(connections)
