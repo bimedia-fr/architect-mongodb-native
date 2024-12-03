@@ -14,11 +14,14 @@
   ],
   "author": "jerome creignou",
   "license": "Apache License V2",
+  "engines": {
+    "node": ">=16.20.1"
+  },
   "bugs": {
     "url": "https://github.com/bimedia-fr/architect-mongodb-native/issues"
   },
   "homepage": "https://github.com/bimedia-fr/architect-mongodb-native",
   "dependencies": {
-    "mongodb": "^5.3.0"
+    "mongodb": "^6.11.0"
   }
 }
