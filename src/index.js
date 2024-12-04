@@ -4,7 +4,7 @@ module.exports = function setup(options, imports, register) {
     const mongodb = require('mongodb');
     const MongoClient = mongodb.MongoClient;
     const Logger = mongodb.Logger;
-    const dbconfig = Object.assign({}, {useUnifiedTopology: true}, options.config);
+    const dbconfig = Object.assign({}, options.config);
     const log = imports.log.getLogger('mongo');
     
     if (dbconfig.logger) {
