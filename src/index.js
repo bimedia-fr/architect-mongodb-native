@@ -59,7 +59,9 @@ module.exports = function setup(options, imports, register) {
             const config = Object.assign({}, dbconfig, db.config);
             const client = new MongoClient(db.url, config);
             return client.connect().then(client => {
-                log.debug(dbName, 'connected @', db.url);
+                let urlNoCreds = db.url.split('@');
+                urlNoCreds = urlNoCreds.length > 1 ? urlNoCreds[1] : urlNoCreds[0];
+                log.debug(dbName, 'connected @', urlNoCreds);
                 reg.mongo.clients[dbName] = client;
                 reg.mongo.db[dbName] = client.db();
             });
